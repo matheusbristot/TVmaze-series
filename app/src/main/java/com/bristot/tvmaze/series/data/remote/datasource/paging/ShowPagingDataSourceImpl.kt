@@ -1,12 +1,8 @@
-package com.bristot.tvmaze.series.data.remote.datasource
+package com.bristot.tvmaze.series.data.remote.datasource.paging
 
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.PagingSource
-import androidx.paging.map
+import androidx.paging.*
 import com.bristot.tvmaze.series.data.remote.model.ShowResponse
-import com.bristot.tvmaze.series.data.remote.paging.ShowMapper
+import com.bristot.tvmaze.series.data.remote.mapper.ShowMapper
 import com.bristot.tvmaze.series.series.model.Show
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -14,13 +10,13 @@ import kotlinx.coroutines.flow.map
 
 class ShowPagingDataSourceImpl(
     pagingConfig: PagingConfig,
-    private val showRemoteDataSource: PagingSource<Int, ShowResponse>,
-    private val showMapper: ShowMapper
+    private val showMapper: ShowMapper,
+    pagingSourceFactory: () -> PagingSource<Int, ShowResponse>
 ) : ShowPagingDataSource {
 
     private val factoryShowPager = Pager(
         config = pagingConfig,
-        pagingSourceFactory = { showRemoteDataSource }
+        pagingSourceFactory = pagingSourceFactory
     )
 
     override fun getShows(): Flow<PagingData<Show>> {

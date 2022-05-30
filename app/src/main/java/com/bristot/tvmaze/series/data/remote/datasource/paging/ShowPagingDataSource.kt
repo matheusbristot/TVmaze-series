@@ -1,4 +1,4 @@
-package com.bristot.tvmaze.series.data.remote.datasource
+package com.bristot.tvmaze.series.data.remote.datasource.paging
 
 import androidx.paging.PagingData
 import com.bristot.tvmaze.series.series.model.Show
