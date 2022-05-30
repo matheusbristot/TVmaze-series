@@ -1,11 +1,11 @@
-package com.bristot.tvmaze.series.data.remote.paging
+package com.bristot.tvmaze.series.data.remote.mapper
 
-import com.bristot.tvmaze.series.data.remote.model.ImageResponse
 import com.bristot.tvmaze.series.data.remote.model.ShowResponse
-import com.bristot.tvmaze.series.series.model.Image
 import com.bristot.tvmaze.series.series.model.Show
+import com.bristot.tvmaze.series.series.orInvalidId
 
-class ShowMapperImpl : ShowMapper {
+
+class ShowMapperImpl(private val imageMapper: ImageMapper) : ShowMapper {
 
     override operator fun invoke(shows: List<ShowResponse>): List<Show> =
         shows.map { show(it) }
@@ -13,15 +13,13 @@ class ShowMapperImpl : ShowMapper {
     override operator fun invoke(show: ShowResponse): Show = show(show)
 
     private fun show(showResponse: ShowResponse): Show = Show(
-        id = showResponse.id ?: -99L,
+        id = showResponse.id.orInvalidId(),
         name = showResponse.name.orEmpty(),
         language = showResponse.language.orEmpty(),
+        genres = showResponse.genres ?: emptyList(),
         summary = showResponse.summary.orEmpty(),
-        image = image(showResponse.image)
-    )
-
-    private fun image(imageResponse: ImageResponse?): Image = Image(
-        medium = imageResponse?.medium,
-        original = imageResponse?.original
+        ended = showResponse.ended.orEmpty(),
+        premiered = showResponse.premiered.orEmpty(),
+        image = imageMapper(showResponse.image)
     )
 }

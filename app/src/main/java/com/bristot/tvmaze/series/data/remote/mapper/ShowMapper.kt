@@ -1,4 +1,4 @@
-package com.bristot.tvmaze.series.data.remote.paging
+package com.bristot.tvmaze.series.data.remote.mapper
 
 import com.bristot.tvmaze.series.data.remote.model.ShowResponse
 import com.bristot.tvmaze.series.series.model.Show
