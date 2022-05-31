@@ -19,7 +19,7 @@ import com.bristot.tvmaze.series.series.model.Show
 
 @Composable
 fun ShowCard(show: Show, navController: NavController) {
-    val cardHeight = 325.dp
+    val cardHeight = 250.dp
     val cardPadding = 2.dp
     val cardElevation = 12.dp
     val modifier = Modifier.fillMaxWidth().height(cardHeight).padding(cardPadding)

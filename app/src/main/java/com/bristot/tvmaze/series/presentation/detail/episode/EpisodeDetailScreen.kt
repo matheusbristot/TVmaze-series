@@ -19,7 +19,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.bristot.tvmaze.series.R
 import com.bristot.tvmaze.series.presentation.composables.*
 import com.bristot.tvmaze.series.presentation.shows.composables.PosterImage
@@ -70,7 +69,6 @@ private fun EpisodeDetailsBody(
             when (result) {
                 EpisodeDetailViewState.Init -> Loading()
                 is EpisodeDetailViewState.Error -> {
-                    result.message
                     RenderDialog(
                         title = result.title,
                         message = result.message,
@@ -126,8 +124,9 @@ fun EpisodeBox(episode: Episode) {
         EpisodeName(episode)
         EpisodeNumber(episode)
         EpisodeSeason(episode)
-        episode.summary?.run {
-            Summary(this)
+        Rating(episode)
+        episode.summary?.let { summary ->
+            Summary(summary)
         }
     }
 }

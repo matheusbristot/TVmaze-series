@@ -23,9 +23,7 @@ fun PosterImage(imageUrl: String?, contentDescription: String) {
     SubcomposeAsyncImage(
         model = imageUrl,
         contentScale = ContentScale.FillBounds,
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(height = 260.dp),
+        modifier = Modifier.fillMaxWidth().height(height = 180.dp),
         contentDescription = stringResource(R.string.poster_description)
     ) { UnwrapState(scope = this, contentDescription = contentDescription) }
 }

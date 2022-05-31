@@ -2,8 +2,11 @@ package com.bristot.tvmaze.series.presentation.detail.show
 
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -12,13 +15,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.bristot.tvmaze.series.R
@@ -256,27 +256,5 @@ fun Episode(episode: Episode, navController: NavController) {
                 }
             }
         }
-    }
-}
-
-@Composable
-private fun Rating(episode: Episode) {
-    ConstraintLayout {
-        val (star, rating) = createRefs()
-        Image(
-            painterResource(R.drawable.ic_star_rate),
-            modifier = Modifier.constrainAs(star) {},
-            contentDescription = null,
-            contentScale = ContentScale.Crop
-        )
-        TextBody1(
-            text = "${episode.rating ?: stringResource(R.string.empty_number)}",
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.constrainAs(rating) {
-                start.linkTo(star.end, margin = 4.dp)
-                top.linkTo(star.top)
-                bottom.linkTo(star.bottom)
-            }
-        )
     }
 }
