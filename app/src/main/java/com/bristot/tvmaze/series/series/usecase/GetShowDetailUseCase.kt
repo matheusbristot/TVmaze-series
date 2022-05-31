@@ -6,6 +6,7 @@ import com.bristot.tvmaze.series.series.model.ShowDetailResult
 import com.bristot.tvmaze.series.series.repository.EpisodeRepository
 import com.bristot.tvmaze.series.series.repository.ShowRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.zip
 
@@ -21,7 +22,9 @@ class GetShowDetailUseCase(
                     episodeRepository.getAllEpisodesByShowId(id)
                 ) { show, episodes ->
                     ShowDetailResult.Success(show, seasons(episodes))
-                }.collect { success -> emit(success) }
+                }
+                    .catch { emit(ShowDetailResult.Error) }
+                    .collect { success -> emit(success) }
             } catch (e: Exception) {
                 emit(ShowDetailResult.Error)
             }
