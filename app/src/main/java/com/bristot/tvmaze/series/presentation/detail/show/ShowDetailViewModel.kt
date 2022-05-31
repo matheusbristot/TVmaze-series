@@ -12,33 +12,33 @@ class ShowDetailViewModel(
     private val useCase: GetShowDetailUseCase
 ) : ViewModel() {
 
-    private val state = MutableLiveData<ShowDetailResult>()
-    val detail: LiveData<ShowDetailResult> get() = state
+    private val state = MutableLiveData<ShowDetailViewState>()
+    val detail: LiveData<ShowDetailViewState> get() = state
 
     init {
         onDetail()
     }
 
     fun onDetail() {
-        state.value = ShowDetailResult.Init
+        state.value = ShowDetailViewState.Init
         viewModelScope.launch {
             try {
                 useCase(id).collect { result ->
                     state.postValue(
                         if (result is com.bristot.tvmaze.series.series.model.ShowDetailResult.Success) {
-                            ShowDetailResult.Success(result.show, result.seasons)
+                            ShowDetailViewState.Success(result.show, result.seasons)
                         } else {
-                            ShowDetailResult.Error("Error", "Try again later")
+                            ShowDetailViewState.Error("Error", "Try again later")
                         }
                     )
                 }
             } catch (e: Exception) {
-                state.postValue(ShowDetailResult.Error("Error", "Try again later"))
+                state.postValue(ShowDetailViewState.Error("Error", "Try again later"))
             }
         }
     }
 
     fun onClear() {
-        state.value = ShowDetailResult.Init
+        state.value = ShowDetailViewState.Init
     }
 }
