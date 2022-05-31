@@ -5,18 +5,16 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.bristot.tvmaze.series.presentation.detail.episode.EpisodeDetailRouter
 import com.bristot.tvmaze.series.presentation.detail.show.ShowDetailRouter
-import com.bristot.tvmaze.series.presentation.show.MainRouter
+import com.bristot.tvmaze.series.presentation.shows.ShowsRouter
 
 @Composable
 fun Nav(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Main.route
+        startDestination = Screen.Shows.route
     ) {
-        MainRouter(navController)
+        ShowsRouter(navController)
         ShowDetailRouter(navController)
         EpisodeDetailRouter(navController)
     }
 }
-
-
