@@ -54,7 +54,8 @@ private fun Module.episode() {
     factory<EpisodeRepository> {
         EpisodeRepositoryImpl(
             remoteDataSource = get(),
-            episodeMapper = get()
+            episodeMapper = get(),
+            networkManager = get()
         )
     }
 }

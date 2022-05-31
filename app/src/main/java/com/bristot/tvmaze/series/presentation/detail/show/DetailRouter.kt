@@ -6,6 +6,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.bristot.tvmaze.series.presentation.nav.Screen
+import com.bristot.tvmaze.series.series.isInvalidId
 import com.bristot.tvmaze.series.series.orInvalidId
 
 private const val idDetail = "idArg"
@@ -21,6 +22,8 @@ fun NavGraphBuilder.ShowDetailRouter(navController: NavHostController) {
             }
         )
     ) { entry ->
-        TVShowDetailsScreen(navController, entry.arguments?.getLong(idDetail).orInvalidId())
+        val showId = entry.arguments?.getLong(idDetail).orInvalidId()
+        if (showId.isInvalidId()) navController.popBackStack()
+        else TVShowDetailsScreen(navController, entry.arguments?.getLong(idDetail).orInvalidId())
     }
 }

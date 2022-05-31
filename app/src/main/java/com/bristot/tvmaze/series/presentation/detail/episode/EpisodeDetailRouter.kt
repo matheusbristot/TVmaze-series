@@ -6,6 +6,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.bristot.tvmaze.series.presentation.nav.Screen
+import com.bristot.tvmaze.series.series.isInvalidId
 import com.bristot.tvmaze.series.series.orInvalidId
 
 private const val idEpisodeDetail = "idEpisodeArg"
@@ -22,6 +23,7 @@ fun NavGraphBuilder.EpisodeDetailRouter(navController: NavHostController) {
         )
     ) { entry ->
         val episodeId = entry.arguments?.getLong(idEpisodeDetail).orInvalidId()
-        EpisodeDetailScreen(navController, episodeId)
+        if (episodeId.isInvalidId()) navController.popBackStack()
+        else EpisodeDetailScreen(episodeId)
     }
 }
