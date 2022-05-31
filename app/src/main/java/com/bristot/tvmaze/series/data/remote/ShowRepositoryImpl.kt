@@ -24,21 +24,20 @@ class ShowRepositoryImpl(
 ) : ShowRepository {
 
     override fun getShowsByName(name: String): Flow<List<SearchShow>> {
-        return if (networkManager.isConnected()) {
-            flow {
-                try {
+        return flow {
+            try {
+                if (networkManager.isConnected()) {
                     val result = searchShowRemoteDataSource.getShowByName(name)
                     if (result.isSuccessful) {
                         val shows = result.body().orEmpty()
                         emit(searchShowMapper(shows))
                     }
-                } catch (e: Exception) {
-                    throw e
+                } else {
+                    throw NoConnectionException()
                 }
-
+            } catch (e: Exception) {
+                throw e
             }
-        } else {
-            throw NoConnectionException()
         }
     }
 
