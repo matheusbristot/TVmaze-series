@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">TVmaze Series</string>
+    <string name="search_show">Search</string>
+    <string name="no_poster">No poster here</string>
+    <string name="poster_description">Description</string>
+    <string name="detail">Show Detail</string>
+    <string name="episode_detail">Episode Detail</string>
+    <string name="episode_number">Episode Number %d</string>
+    <string name="episode_season">Season Number %d</string>
+    <string name="seasons">Seasons</string>
+    <string name="okay">Okay</string>
+    <string name="try_again">Try Again</string>
+    <string name="season">Season</string>
+    <string name="season_number">Season Number</string>
+    <string name="total_episodes">total episodes</string>
+    <string name="summary">Summary:</string>
+    <string name="date">Date:</string>
+    <string name="premiered">Premiered</string>
+    <string name="ended">Ended</string>
+    <string name="genres">Genres: </string>
+    <string name="no_name">Unknown</string>
+    <string name="empty_number">-</string>
+    <string name="shows_fetch_error_title">Oops..</string>
+    <string name="shows_fetch_error_message">Fetching TV Shows error</string>
 </resources>
