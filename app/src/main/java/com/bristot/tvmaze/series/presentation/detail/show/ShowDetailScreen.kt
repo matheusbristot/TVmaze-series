@@ -4,10 +4,25 @@ import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -22,7 +37,13 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.bristot.tvmaze.series.R
-import com.bristot.tvmaze.series.presentation.composables.*
+import com.bristot.tvmaze.series.presentation.composables.ErrorDialog
+import com.bristot.tvmaze.series.presentation.composables.FlexibleCard
+import com.bristot.tvmaze.series.presentation.composables.Loading
+import com.bristot.tvmaze.series.presentation.composables.Rating
+import com.bristot.tvmaze.series.presentation.composables.Summary
+import com.bristot.tvmaze.series.presentation.composables.TextBody1
+import com.bristot.tvmaze.series.presentation.composables.Texth5
 import com.bristot.tvmaze.series.presentation.nav.Screen
 import com.bristot.tvmaze.series.presentation.shows.composables.PosterImageRounded
 import com.bristot.tvmaze.series.presentation.theme.primaryColor
@@ -68,42 +89,45 @@ private fun ShowDetailsBody(
                 contentColor = Color.White
             )
         },
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.White)
-        ) {
-            when (result) {
-                is ShowDetailViewState.Error -> {
-                    ErrorDialog(
-                        true,
-                        title = result.title,
-                        message = result.message,
-                        onConfirmButtonClicked = {
-                            viewModel.onDetail()
-                        },
-                        onDismiss = {
-                            viewModel.onDetail()
-                        }
-                    )
-                }
-                ShowDetailViewState.Init -> Loading()
-                is ShowDetailViewState.Success -> {
-                    AnimatedVisibility(visible = result.loading.not()) {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .verticalScroll(rememberScrollState())
-                        ) {
-                            ShowDetails(result.show)
-                            ShowSeasons(result.seasons, navController)
+        content = { paddingValues: PaddingValues ->
+            Column(
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .fillMaxSize()
+                    .background(Color.White)
+            ) {
+                when (result) {
+                    is ShowDetailViewState.Error -> {
+                        ErrorDialog(
+                            true,
+                            title = result.title,
+                            message = result.message,
+                            onConfirmButtonClicked = {
+                                viewModel.onDetail()
+                            },
+                            onDismiss = {
+                                viewModel.onDetail()
+                            }
+                        )
+                    }
+
+                    ShowDetailViewState.Init -> Loading()
+                    is ShowDetailViewState.Success -> {
+                        AnimatedVisibility(visible = result.loading.not()) {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .verticalScroll(rememberScrollState())
+                            ) {
+                                ShowDetails(result.show)
+                                ShowSeasons(result.seasons, navController)
+                            }
                         }
                     }
                 }
             }
         }
-    }
+    )
 }
 
 @Composable
