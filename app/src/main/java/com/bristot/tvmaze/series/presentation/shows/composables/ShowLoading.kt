@@ -1,8 +1,5 @@
-@file:OptIn(ExperimentalFoundationApi::class)
-
 package com.bristot.tvmaze.series.presentation.shows.composables
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
