@@ -5,10 +5,11 @@ package com.bristot.tvmaze.series.presentation.shows.composables
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.lazy.GridItemSpan
-import androidx.compose.foundation.lazy.LazyGridItemSpanScope
-import androidx.compose.foundation.lazy.LazyGridScope
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridItemSpanScope
+import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -30,7 +31,7 @@ private val span: (LazyGridItemSpanScope) -> GridItemSpan = { GridItemSpan(2) }
 
 private fun LazyGridScope.renderRefresh() {
     item(span = span) {
-        LoadingColumn(modifier = Modifier.fillParentMaxSize())
+        LoadingColumn(modifier = Modifier.fillMaxHeight())
     }
 }
 
