@@ -29,13 +29,13 @@ import com.bristot.tvmaze.series.presentation.shows.composables.ShowAdapter
 import com.bristot.tvmaze.series.presentation.shows.composables.ShowSearchAdapter
 import com.bristot.tvmaze.series.presentation.theme.primaryColor
 import com.bristot.tvmaze.series.series.model.Show
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ShowsScreen(
     navController: NavController,
-    viewModel: ShowsViewModel = getViewModel(),
-    searchViewModel: SearchViewModel = getViewModel()
+    viewModel: ShowsViewModel = koinViewModel(),
+    searchViewModel: SearchViewModel = koinViewModel()
 ) {
     Scaffold(
         topBar = {

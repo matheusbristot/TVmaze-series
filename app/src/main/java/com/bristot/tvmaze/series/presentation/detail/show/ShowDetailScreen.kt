@@ -30,14 +30,14 @@ import com.bristot.tvmaze.series.presentation.theme.shapes
 import com.bristot.tvmaze.series.series.model.Episode
 import com.bristot.tvmaze.series.series.model.Season
 import com.bristot.tvmaze.series.series.model.Show
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
 fun TVShowDetailsScreen(
     navController: NavHostController,
     showId: Long,
-    viewModel: ShowDetailViewModel = getViewModel { parametersOf(showId) }
+    viewModel: ShowDetailViewModel = koinViewModel { parametersOf(showId) }
 ) {
     val state: ShowDetailViewState by viewModel.detail.observeAsState(ShowDetailViewState.Init)
     ShowDetailsBody(viewModel, state, navController)
