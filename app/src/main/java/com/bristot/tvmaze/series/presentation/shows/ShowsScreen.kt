@@ -1,10 +1,13 @@
-@file:OptIn(ExperimentalFoundationApi::class)
-
 package com.bristot.tvmaze.series.presentation.shows
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -28,13 +31,13 @@ import com.bristot.tvmaze.series.presentation.shows.composables.ShowAdapter
 import com.bristot.tvmaze.series.presentation.shows.composables.ShowSearchAdapter
 import com.bristot.tvmaze.series.presentation.theme.primaryColor
 import com.bristot.tvmaze.series.series.model.Show
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ShowsScreen(
     navController: NavController,
-    viewModel: ShowsViewModel = getViewModel(),
-    searchViewModel: SearchViewModel = getViewModel()
+    viewModel: ShowsViewModel = koinViewModel(),
+    searchViewModel: SearchViewModel = koinViewModel()
 ) {
     Scaffold(
         topBar = {
@@ -57,30 +60,32 @@ fun ShowsScreen(
                 elevation = 12.dp,
             )
         },
-        backgroundColor = primaryColor
-    ) {
-        val lazyPagingItems = viewModel.onShows().collectAsLazyPagingItems()
-        val data by searchViewModel.data.collectAsState(emptyList())
-        ShowErrorDialog(viewModel, lazyPagingItems)
-        Column(
-            Modifier
-                .fillMaxSize()
-                .background(Color.White)
-        ) {
-            if (data.isNotEmpty()) {
-                ShowSearchAdapter(
-                    navController,
-                    data
-                )
-            } else {
-                ShowAdapter(
-                    navController = navController,
-                    tvShows = lazyPagingItems,
-                    onPagingError = viewModel::onShowsError
-                )
+        backgroundColor = primaryColor,
+        content = { paddingValues: PaddingValues ->
+            val lazyPagingItems = viewModel.onShows().collectAsLazyPagingItems()
+            val data by searchViewModel.data.collectAsState(emptyList())
+            ShowErrorDialog(viewModel, lazyPagingItems)
+            Column(
+                Modifier
+                    .padding(paddingValues)
+                    .fillMaxSize()
+                    .background(Color.White)
+            ) {
+                if (data.isNotEmpty()) {
+                    ShowSearchAdapter(
+                        navController,
+                        data
+                    )
+                } else {
+                    ShowAdapter(
+                        navController = navController,
+                        tvShows = lazyPagingItems,
+                        onPagingError = viewModel::onShowsError
+                    )
+                }
             }
         }
-    }
+    )
 }
 
 @Composable

@@ -1,14 +1,11 @@
-@file:OptIn(ExperimentalFoundationApi::class)
-
 package com.bristot.tvmaze.series.presentation.shows.composables
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyGridScope
-import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridScope
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.navigation.NavController
 import androidx.paging.LoadState
@@ -22,10 +19,10 @@ fun ShowAdapter(
     onPagingError: () -> Unit
 ) {
     val cellCount = 2
-    val cellState by remember { mutableStateOf(cellCount) }
+    val cellState by remember { mutableIntStateOf(cellCount) }
 
     LazyVerticalGrid(
-        cells = GridCells.Fixed(cellState),
+        columns = GridCells.Fixed(cellState),
         content = {
             if (tvShows.loadState.refresh is LoadState.Error) {
                 onPagingError()
@@ -43,10 +40,10 @@ fun ShowSearchAdapter(
     shows: List<Show>
 ) {
     val cellCount = 2
-    val cellState by remember { mutableStateOf(cellCount) }
+    val cellState by remember { mutableIntStateOf(cellCount) }
 
     LazyVerticalGrid(
-        cells = GridCells.Fixed(cellState),
+        columns = GridCells.Fixed(cellState),
         content = {
             renderShows(shows, navController)
         }

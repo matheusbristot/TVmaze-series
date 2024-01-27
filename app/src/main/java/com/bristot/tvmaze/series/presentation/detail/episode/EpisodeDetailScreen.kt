@@ -2,7 +2,13 @@ package com.bristot.tvmaze.series.presentation.detail.episode
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
@@ -20,17 +26,22 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.bristot.tvmaze.series.R
-import com.bristot.tvmaze.series.presentation.composables.*
+import com.bristot.tvmaze.series.presentation.composables.Loading
+import com.bristot.tvmaze.series.presentation.composables.Rating
+import com.bristot.tvmaze.series.presentation.composables.RenderDialog
+import com.bristot.tvmaze.series.presentation.composables.Summary
+import com.bristot.tvmaze.series.presentation.composables.TextBody1
+import com.bristot.tvmaze.series.presentation.composables.Texth5
 import com.bristot.tvmaze.series.presentation.shows.composables.PosterImage
 import com.bristot.tvmaze.series.presentation.theme.shapes
 import com.bristot.tvmaze.series.series.model.Episode
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
 fun EpisodeDetailScreen(
     episodeId: Long,
-    viewModel: EpisodeDetailViewModel = getViewModel { parametersOf(episodeId) }
+    viewModel: EpisodeDetailViewModel = koinViewModel { parametersOf(episodeId) }
 ) {
     val result: EpisodeDetailViewState by viewModel.detail.observeAsState(EpisodeDetailViewState.Init)
     EpisodeDetailsBody(result, viewModel)
@@ -41,7 +52,6 @@ private fun EpisodeDetailsBody(
     result: EpisodeDetailViewState,
     viewModel: EpisodeDetailViewModel
 ) {
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -60,40 +70,44 @@ private fun EpisodeDetailsBody(
                 contentColor = Color.White,
             )
         },
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.White)
-        ) {
-            when (result) {
-                EpisodeDetailViewState.Init -> Loading()
-                is EpisodeDetailViewState.Error -> {
-                    RenderDialog(
-                        title = result.title,
-                        message = result.message,
-                        action = result.action,
-                        onConfirmButtonClicked = { viewModel.onEpisodeDetail() },
-                        onDismiss = { viewModel.onClear() }
-                    )
-                }
-                is EpisodeDetailViewState.Success -> {
-                    AnimatedVisibility(visible = result.loading.not()) {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .verticalScroll(rememberScrollState())
-                        ) {
-                            Detail(result.episode)
+        content = { paddingValues: PaddingValues ->
+            Column(
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .fillMaxSize()
+                    .background(Color.White)
+            ) {
+                when (result) {
+                    EpisodeDetailViewState.Init -> Loading()
+                    is EpisodeDetailViewState.Error -> {
+                        RenderDialog(
+                            title = result.title,
+                            message = result.message,
+                            action = result.action,
+                            onConfirmButtonClicked = { viewModel.onEpisodeDetail() },
+                            onDismiss = { viewModel.onClear() }
+                        )
+                    }
+
+                    is EpisodeDetailViewState.Success -> {
+                        AnimatedVisibility(visible = result.loading.not()) {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .verticalScroll(rememberScrollState())
+                            ) {
+                                Detail(result.episode)
+                            }
                         }
                     }
-                }
-                EpisodeDetailViewState.Clear -> {
-                    // Nothing to do here
+
+                    EpisodeDetailViewState.Clear -> {
+                        // Nothing to do here
+                    }
                 }
             }
         }
-    }
+    )
 }
 
 @Composable

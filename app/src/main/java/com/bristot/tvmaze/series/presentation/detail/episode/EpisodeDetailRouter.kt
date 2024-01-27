@@ -11,7 +11,7 @@ import com.bristot.tvmaze.series.series.orInvalidId
 
 private const val idEpisodeDetail = "idEpisodeArg"
 
-fun NavGraphBuilder.EpisodeDetailRouter(navController: NavHostController) {
+fun NavGraphBuilder.episodeDetailRouter(navController: NavHostController) {
     val route = Screen.EpisodeDetail.route + "/{$idEpisodeDetail}"
     composable(
         route = route,
