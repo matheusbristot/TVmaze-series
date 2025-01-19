@@ -9,13 +9,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
-import com.bristot.tvmaze.series.presentation.theme.primaryColor
+import com.bristot.tvmaze.series.presentation.theme.primaryLight
 
 @Composable
 fun TextBody1(
     text: String,
     modifier: Modifier = Modifier,
-    textColor: Color = primaryColor,
+    textColor: Color = primaryLight,
     fontSize: TextUnit = MaterialTheme.typography.body1.fontSize,
     textAlign: TextAlign = TextAlign.Center,
     fontWeight: FontWeight = FontWeight.Medium,
@@ -38,7 +38,7 @@ fun TextBody1(
 fun Texth5(
     text: String,
     modifier: Modifier = Modifier,
-    textColor: Color = primaryColor,
+    textColor: Color = primaryLight,
     fontSize: TextUnit = MaterialTheme.typography.h5.fontSize,
     maxLines: Int = 2,
     textAlign: TextAlign = TextAlign.Center
@@ -69,7 +69,7 @@ fun Texth6(
     Text(
         modifier = modifier,
         text = text,
-        color = primaryColor,
+        color = primaryLight,
         fontSize = fontSize,
         fontWeight = FontWeight.Bold,
         maxLines = maxLines,

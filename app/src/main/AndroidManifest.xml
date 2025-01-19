@@ -16,7 +16,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TVmazeSeries"
         tools:targetApi="34">
-
         <activity
             android:name=".presentation.MainActivity"
             android:exported="true">
