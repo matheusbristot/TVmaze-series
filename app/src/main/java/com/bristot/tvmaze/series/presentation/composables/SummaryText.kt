@@ -14,7 +14,7 @@ import com.bristot.tvmaze.series.R
 @Composable
 fun Summary(summary: String, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
-        Texth5(
+        HeadlineSmall(
             modifier = modifier,
             text = stringResource(R.string.summary),
             textAlign = TextAlign.Start

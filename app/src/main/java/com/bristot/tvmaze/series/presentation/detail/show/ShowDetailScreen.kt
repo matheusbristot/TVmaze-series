@@ -18,11 +18,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -46,7 +49,7 @@ import com.bristot.tvmaze.series.presentation.composables.TextBody1
 import com.bristot.tvmaze.series.presentation.composables.Texth5
 import com.bristot.tvmaze.series.presentation.nav.Screen
 import com.bristot.tvmaze.series.presentation.shows.composables.PosterImageRounded
-import com.bristot.tvmaze.series.presentation.theme.primaryColor
+import com.bristot.tvmaze.series.presentation.theme.primaryLight
 import com.bristot.tvmaze.series.presentation.theme.shapes
 import com.bristot.tvmaze.series.series.model.Episode
 import com.bristot.tvmaze.series.series.model.Season
@@ -64,70 +67,69 @@ fun TVShowDetailsScreen(
     ShowDetailsBody(viewModel, state, navController)
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ShowDetailsBody(
     viewModel: ShowDetailViewModel,
     result: ShowDetailViewState,
-    navController: NavController
+    navController: NavController,
 ) {
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.detail)
-                        )
-                    }
-                },
-                backgroundColor = MaterialTheme.colors.primary,
-                contentColor = Color.White
+    Scaffold(topBar = {
+        TopAppBar(
+            title = {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.detail)
+                    )
+                }
+            }, colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
+                actionIconContentColor = MaterialTheme.colorScheme.onSecondary
             )
-        },
-        content = { paddingValues: PaddingValues ->
-            Column(
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .fillMaxSize()
-                    .background(Color.White)
-            ) {
-                when (result) {
-                    is ShowDetailViewState.Error -> {
-                        ErrorDialog(
-                            true,
-                            title = result.title,
-                            message = result.message,
-                            onConfirmButtonClicked = {
-                                viewModel.onDetail()
-                            },
-                            onDismiss = {
-                                viewModel.onDetail()
-                            }
-                        )
-                    }
+        )
+    }, content = { paddingValues: PaddingValues ->
+        Column(
+            modifier = Modifier
+                .padding(paddingValues)
+                .fillMaxSize()
+                .background(Color.White)
+        ) {
+            when (result) {
+                is ShowDetailViewState.Error -> {
+                    ErrorDialog(true,
+                        title = result.title,
+                        message = result.message,
+                        onConfirmButtonClicked = {
+                            viewModel.onDetail()
+                        },
+                        onDismiss = {
+                            viewModel.onDetail()
+                        })
+                }
 
-                    ShowDetailViewState.Init -> Loading()
-                    is ShowDetailViewState.Success -> {
-                        AnimatedVisibility(visible = result.loading.not()) {
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .verticalScroll(rememberScrollState())
-                            ) {
-                                ShowDetails(result.show)
-                                ShowSeasons(result.seasons, navController)
-                            }
+                ShowDetailViewState.Init -> Loading()
+                is ShowDetailViewState.Success -> {
+                    AnimatedVisibility(visible = result.loading.not()) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .verticalScroll(rememberScrollState())
+                        ) {
+                            ShowDetails(result.show)
+                            ShowSeasons(result.seasons, navController)
                         }
                     }
                 }
             }
         }
-    )
+    })
 }
 
 @Composable
@@ -144,8 +146,7 @@ fun ShowDetails(show: Show) = with(show) {
             horizontalArrangement = Arrangement.Start
         ) {
             PosterImageRounded(
-                imageUrl = image.medium,
-                contentDescription = show.name
+                imageUrl = image.medium, contentDescription = show.name
             )
             Column(modifier = Modifier.padding(8.dp)) {
                 ShowElement(prefix = R.string.premiered, fieldValue = show.premiered)
@@ -168,8 +169,7 @@ fun ShowGenres(genres: List<String>) {
     if (genres.isNotEmpty()) {
         Row {
             TextBody1(
-                stringResource(id = R.string.genres),
-                fontWeight = FontWeight.ExtraBold
+                stringResource(id = R.string.genres), fontWeight = FontWeight.ExtraBold
             )
             Spacer(modifier = Modifier.width(2.dp))
             genres.forEachIndexed { index, text ->
@@ -189,8 +189,7 @@ fun ShowGenres(genres: List<String>) {
 private fun ShowName(show: Show) {
     Spacer(Modifier.size(8.dp))
     Texth5(
-        text = show.name,
-        textAlign = TextAlign.Center
+        text = show.name, textAlign = TextAlign.Center
     )
     Spacer(Modifier.size(8.dp))
 }
@@ -219,7 +218,7 @@ fun ShowSeasons(seasons: List<Season>, navController: NavController) {
     ) {
         Texth5(
             text = stringResource(id = R.string.seasons) + ": ${seasons.size}",
-            textColor = primaryColor
+            textColor = primaryLight
         )
         seasons.forEach { season ->
             Spacer(modifier = Modifier.height(4.dp))
@@ -248,14 +247,15 @@ fun Episodes(episodes: List<Episode>, navController: NavController) {
 @Composable
 fun Episode(episode: Episode, navController: NavController) {
     BoxWithConstraints {
+        val boxHeight = maxHeight
         Card(
             modifier = Modifier
+                .height(boxHeight)
                 .padding(all = 8.dp)
                 .fillMaxWidth()
                 .clickable {
                     navController.navigate(Screen.EpisodeDetail.route + "/${episode.id}")
-                },
-            elevation = 8.dp
+                }, elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
         ) {
             Column(modifier = Modifier.fillMaxSize()) {
                 TextBody1(
