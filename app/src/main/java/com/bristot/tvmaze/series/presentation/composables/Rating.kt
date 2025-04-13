@@ -22,7 +22,7 @@ fun Rating(episode: Episode) {
             contentDescription = null,
             contentScale = ContentScale.Crop
         )
-        TextBody1(
+        BodyLarge(
             text = "${episode.rating ?: stringResource(R.string.empty_number)}",
             fontWeight = FontWeight.Bold,
             modifier = Modifier.constrainAs(rating) {

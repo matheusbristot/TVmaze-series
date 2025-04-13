@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalMaterialApi::class)
-
 package com.bristot.tvmaze.series.presentation.composables
 
 import androidx.compose.animation.animateContentSize
@@ -11,14 +9,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Card
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
+import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,11 +26,32 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+/**
+ * A flexible card composable that can expand and collapse its content.
+ *
+ * This composable displays a card with a title and an expand/collapse arrow.
+ * When the card is clicked, it will expand or collapse to show/hide the provided content.
+ *
+ * @param title The title to be displayed on the card.
+ * @param defaultElevation The default elevation of the card. Defaults to 12.dp.
+ * @param content The composable content to be displayed when the card is expanded.
+ *
+ * Example Usage:
+ *
+ * ```
+ * FlexibleCard(title = "Card Title") {
+ *     Text("This is the expanded content.")
+ *     Text("More content can be added here.")
+ * }
+ * ```
+ */
 @Composable
 fun FlexibleCard(
     title: String,
+    defaultElevation: Dp = 12.dp,
     content: @Composable () -> Unit
 ) {
 
@@ -52,7 +70,7 @@ fun FlexibleCard(
         onClick = {
             isExpanded = !isExpanded
         },
-        elevation = 12.dp
+        elevation = CardDefaults.cardElevation(defaultElevation = defaultElevation)
     ) {
         Column(
             modifier = Modifier
@@ -63,9 +81,9 @@ fun FlexibleCard(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Texth6(modifier = Modifier.weight(6f), text = title)
+                TitleLarge(modifier = Modifier.weight(6f), text = title)
                 IconButton(
-                    modifier = Modifier.weight(2f).alpha(ContentAlpha.medium).rotate(rotationState),
+                    modifier = Modifier.weight(2f).alpha(0.74f).rotate(rotationState),
                     onClick = {
                         isExpanded = !isExpanded
                     }) {

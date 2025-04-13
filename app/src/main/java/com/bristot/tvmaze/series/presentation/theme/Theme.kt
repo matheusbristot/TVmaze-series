@@ -10,13 +10,13 @@ import androidx.compose.runtime.SideEffect
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
-fun Theme(content: @Composable () -> Unit) {
+fun TVmazeSeriesTheme(content: @Composable () -> Unit) {
 
     val systemUiController = rememberSystemUiController()
     SideEffect {
         systemUiController.setSystemBarsColor(
             color = secondaryLight,
-            darkIcons = false
+            darkIcons = true
         )
     }
 
